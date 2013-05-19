@@ -1,6 +1,9 @@
 DEV_dsPIC
 =========
 
+Author : DIB Guillaume
+Beginning date : 05/2013
+
 This project is an Arduino_like project based on dsPIC33F µC.
 Boards : 
 
