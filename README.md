@@ -16,3 +16,5 @@ Boards :
 -> Remote Shield : Joysticks and pushbutton with a 2.4GHz transmitter to change the µC into a remote.
 
 -> Screen Shield : An LCD screen with a dedicated SD card.
+
+I also plan on preparing a simple template and some librairies to simplify the use of the µC.
