@@ -7991,7 +7991,7 @@ Source: www.kingbright.com</description>
 <plain>
 <text x="0" y="91.44" size="6.4516" layer="91">Shield Moteurs</text>
 <text x="0" y="86.36" size="1.778" layer="91" align="top-left">TO DO :
--&gt; 1 ou 2  L6205 (DUAL FULL BRIDGE)
+-&gt; 1 L6205 (DUAL FULL BRIDGE)
 -&gt; 2  connecteurs Codeurs
 -&gt; Jumpers pour selection DC ou pas à pas
 -&gt; LEDs sur PWM
