@@ -1,0 +1,112 @@
+\documentclass[a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage[french]{babel}
+\usepackage[a4paper]{geometry}
+\usepackage{enumerate}
+\usepackage{circuitikz}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,fit}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\usepackage{stmaryrd}
+\usepackage{float}
+\geometry{scale=0.80}
+
+\author{Guillaume Dib}
+\title{Tutoriel dsPIC}
+
+\begin{document}
+
+ \maketitle
+\clearpage
+\tableofcontents
+\clearpage
+
+%----------------------------------------------Introduction-----------------------------------------------------
+\section{Introduction} 
+%----------------------------------------------A propos du projet---------------------------------------------
+	\subsection{A propos du projet}
+
+Ce projet est née après deux participations à la coupe de France de robotique, il vient d'un constat simple :
+
+Pour les cartes électroniques, un dilemme se pose : utiliser des cartes génériques type Arduino éprouvé et robuste ou créer ses propres cartes souvent moins fiable.\\
+
+Mais après avoir parlé avec beaucoup de passionné des deux solutions, aucune ne me convient :\\
+ La solution à base d'Arduino me semble trop limité parfois avec des cartes type Uno. Je ne connais pas très bien les cartes plus puissante type Mega mais personnellement, je me sens trop limité avec l'IDE Arduino et le manque de débug me gène
+ 
+ D'un autre côté, lors du développement de carte dédié, il faut connaitre tout les besoins en ressources ce qui oblige à commencé le travail tard (après avoir définit tout les besoins) ou risqué d'oublier certaines choses ce qui nécessite quelques ajustement de dernière minute rarement "propre".\\
+ 
+ Dans le cadre de mon association, étant électroniciens de formation, nous optons pour le développement de nouvelles cartes chaque année. Mais comme je le disais, nous sommes toujours obligé de faire quelques modifications de dernière minute qui passe souvent par l'ajout d'une petite carte pour réalisé une fonction simple.\\
+ 
+ C'est pourquoi j'ai décidé de recréer ce que j'aime sur une carte Arduino mais avec un microcontroleur de chez Microchip, un dsPIC33FJ128MC80X dont je détaillerai l'utilisation dans la partie suivante. Je souhaite créer une plateforme de développement composé par une carte de base comprenant l'alimentation et le microcontroleur, ainsi que des "shields" qui viendront se plugger dessus. 
+ 
+ Je prévois :
+ \begin{itemize}
+ 	\item[$\diamond$] un shield moteur pour des moteurs DC ou pas à pas.
+ 	\item[$\diamond$] un shield capteurs/actionneurs pour utiliser des servomoteurs, des AX12 et des capteurs analogiques.
+ 	\item[$\diamond$] un shield télécommande basé sur un émetteur 2.4GHz qui communique en UART.
+ 	\item[$\diamond$] un shield écran LCD et lecteur de carte SD
+\end{itemize}
+Cette liste n'est pas exhaustive, elle ne reflète que l'utilisation que je compte en faire pour mes projets actuelles.\\
+
+Pour finir, ce projet à pour but d'être \textbf{Open Source}, que ce soit la partie hardware ou la partie software, rien ne ferait plus plaisir que des suggestions ou de l'aide pour améliorer ce projet.
+ 
+%----------------------------------------------Description rapide des cartes---------------------------------------------
+ 	\subsection{Description rapide des cartes}
+ 	
+ Tout d'abord, plusieurs chose à propos de ces microcontroleur : Je dis ces microcontroleur car le "X" signifie que j'utilise en réalité deux composants, le 802 qui est un 28 pins et qui existe en version DIP (traversant) et le 804 qui est le même, à ceci près qu'il possède 44 pins mais n'existe que en version CMS. J'ai choisit cette référence car il possède une architecture 16 bits et une grande puissance de calcul pour un microcontroleur. Mais c'est surtout le module matériel "QEI" qui m'intéresse, c'est un module matériel de comptage pour les encodeurs en quadrature qui permet de décharger la partie logiciel de ce travail qui peut mobiliser énormément de puissance de calcul (environ 50\% sur un pic 8bit de la famille 18f).
+
+\section{Prise en main du template}
+
+
+
+\section{Gestion des Entrées Sorties}
+	\subsection{Définition de la direction}
+	
+	\subsection{Lecture ou Ecriture}
+	
+	\subsection{Les pins 5V résistantes}
+
+\section{Les Modules matérielles}
+	\subsection{Les pins remappable}
+	
+	\subsection{Les Timers}
+	
+	\subsection{Le protocole de communication UART}
+	
+	\subsection{La lecture Analogique}
+	
+	\subsection{Génération de PWM}
+	
+	\subsection{Le module QEI}
+	
+	%A venir
+	%SPI
+	%Input Capture
+	%Output Compare
+	%I2C
+	%Ecriture Analogique
+
+\section{Les cartes de développement}
+	\subsection{La carte de base}
+	
+	\subsection{Shield Moteur}
+	
+	\subsection{Shield Capteur/Actionneur}
+	
+	A venir
+	
+	\subsection{Shield Télécommande}
+	
+	A venir
+	
+	\subsection{Shield LCD/SD}
+	
+	A venir
+	
+\section{Exemples d'applications}
+
+\end{document}
