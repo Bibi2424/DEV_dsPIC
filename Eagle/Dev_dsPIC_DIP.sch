@@ -8,34 +8,34 @@
 </settings>
 <grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
 <layers>
-<layer number="1" name="Top" color="4" fill="1" visible="no" active="no"/>
-<layer number="2" name="Route2" color="1" fill="3" visible="no" active="no"/>
-<layer number="3" name="Route3" color="4" fill="3" visible="no" active="no"/>
-<layer number="4" name="Route4" color="1" fill="4" visible="no" active="no"/>
-<layer number="5" name="Route5" color="4" fill="4" visible="no" active="no"/>
-<layer number="6" name="Route6" color="1" fill="8" visible="no" active="no"/>
-<layer number="7" name="Route7" color="4" fill="8" visible="no" active="no"/>
-<layer number="8" name="Route8" color="1" fill="2" visible="no" active="no"/>
-<layer number="9" name="Route9" color="4" fill="2" visible="no" active="no"/>
-<layer number="10" name="Route10" color="1" fill="7" visible="no" active="no"/>
-<layer number="11" name="Route11" color="4" fill="7" visible="no" active="no"/>
-<layer number="12" name="Route12" color="1" fill="5" visible="no" active="no"/>
-<layer number="13" name="Route13" color="4" fill="5" visible="no" active="no"/>
-<layer number="14" name="Route14" color="1" fill="6" visible="no" active="no"/>
-<layer number="15" name="Route15" color="4" fill="6" visible="no" active="no"/>
-<layer number="16" name="Bottom" color="1" fill="1" visible="no" active="no"/>
-<layer number="17" name="Pads" color="2" fill="1" visible="no" active="no"/>
-<layer number="18" name="Vias" color="2" fill="1" visible="no" active="no"/>
-<layer number="19" name="Unrouted" color="6" fill="1" visible="no" active="no"/>
-<layer number="20" name="Dimension" color="15" fill="1" visible="no" active="no"/>
-<layer number="21" name="tPlace" color="7" fill="1" visible="no" active="no"/>
-<layer number="22" name="bPlace" color="7" fill="1" visible="no" active="no"/>
-<layer number="23" name="tOrigins" color="15" fill="1" visible="no" active="no"/>
-<layer number="24" name="bOrigins" color="15" fill="1" visible="no" active="no"/>
-<layer number="25" name="tNames" color="7" fill="1" visible="no" active="no"/>
-<layer number="26" name="bNames" color="7" fill="1" visible="no" active="no"/>
-<layer number="27" name="tValues" color="7" fill="1" visible="no" active="no"/>
-<layer number="28" name="bValues" color="7" fill="1" visible="no" active="no"/>
+<layer number="1" name="Top" color="4" fill="1" visible="yes" active="no"/>
+<layer number="2" name="Route2" color="1" fill="3" visible="yes" active="no"/>
+<layer number="3" name="Route3" color="4" fill="3" visible="yes" active="no"/>
+<layer number="4" name="Route4" color="1" fill="4" visible="yes" active="no"/>
+<layer number="5" name="Route5" color="4" fill="4" visible="yes" active="no"/>
+<layer number="6" name="Route6" color="1" fill="8" visible="yes" active="no"/>
+<layer number="7" name="Route7" color="4" fill="8" visible="yes" active="no"/>
+<layer number="8" name="Route8" color="1" fill="2" visible="yes" active="no"/>
+<layer number="9" name="Route9" color="4" fill="2" visible="yes" active="no"/>
+<layer number="10" name="Route10" color="1" fill="7" visible="yes" active="no"/>
+<layer number="11" name="Route11" color="4" fill="7" visible="yes" active="no"/>
+<layer number="12" name="Route12" color="1" fill="5" visible="yes" active="no"/>
+<layer number="13" name="Route13" color="4" fill="5" visible="yes" active="no"/>
+<layer number="14" name="Route14" color="1" fill="6" visible="yes" active="no"/>
+<layer number="15" name="Route15" color="4" fill="6" visible="yes" active="no"/>
+<layer number="16" name="Bottom" color="1" fill="1" visible="yes" active="no"/>
+<layer number="17" name="Pads" color="2" fill="1" visible="yes" active="no"/>
+<layer number="18" name="Vias" color="2" fill="1" visible="yes" active="no"/>
+<layer number="19" name="Unrouted" color="6" fill="1" visible="yes" active="no"/>
+<layer number="20" name="Dimension" color="15" fill="1" visible="yes" active="no"/>
+<layer number="21" name="tPlace" color="7" fill="1" visible="yes" active="no"/>
+<layer number="22" name="bPlace" color="7" fill="1" visible="yes" active="no"/>
+<layer number="23" name="tOrigins" color="15" fill="1" visible="yes" active="no"/>
+<layer number="24" name="bOrigins" color="15" fill="1" visible="yes" active="no"/>
+<layer number="25" name="tNames" color="7" fill="1" visible="yes" active="no"/>
+<layer number="26" name="bNames" color="7" fill="1" visible="yes" active="no"/>
+<layer number="27" name="tValues" color="7" fill="1" visible="yes" active="no"/>
+<layer number="28" name="bValues" color="7" fill="1" visible="yes" active="no"/>
 <layer number="29" name="tStop" color="7" fill="3" visible="no" active="no"/>
 <layer number="30" name="bStop" color="7" fill="6" visible="no" active="no"/>
 <layer number="31" name="tCream" color="7" fill="4" visible="no" active="no"/>
@@ -44,8 +44,8 @@
 <layer number="34" name="bFinish" color="6" fill="6" visible="no" active="no"/>
 <layer number="35" name="tGlue" color="7" fill="4" visible="no" active="no"/>
 <layer number="36" name="bGlue" color="7" fill="5" visible="no" active="no"/>
-<layer number="37" name="tTest" color="7" fill="1" visible="no" active="no"/>
-<layer number="38" name="bTest" color="7" fill="1" visible="no" active="no"/>
+<layer number="37" name="tTest" color="7" fill="1" visible="yes" active="no"/>
+<layer number="38" name="bTest" color="7" fill="1" visible="yes" active="no"/>
 <layer number="39" name="tKeepout" color="4" fill="11" visible="no" active="no"/>
 <layer number="40" name="bKeepout" color="1" fill="11" visible="no" active="no"/>
 <layer number="41" name="tRestrict" color="4" fill="10" visible="no" active="no"/>
@@ -53,13 +53,13 @@
 <layer number="43" name="vRestrict" color="2" fill="10" visible="no" active="no"/>
 <layer number="44" name="Drills" color="7" fill="1" visible="no" active="no"/>
 <layer number="45" name="Holes" color="7" fill="1" visible="no" active="no"/>
-<layer number="46" name="Milling" color="3" fill="1" visible="no" active="no"/>
-<layer number="47" name="Measures" color="7" fill="1" visible="no" active="no"/>
-<layer number="48" name="Document" color="7" fill="1" visible="no" active="no"/>
-<layer number="49" name="Reference" color="7" fill="1" visible="no" active="no"/>
-<layer number="50" name="dxf" color="7" fill="1" visible="no" active="no"/>
-<layer number="51" name="tDocu" color="7" fill="1" visible="no" active="no"/>
-<layer number="52" name="bDocu" color="7" fill="1" visible="no" active="no"/>
+<layer number="46" name="Milling" color="3" fill="1" visible="yes" active="no"/>
+<layer number="47" name="Measures" color="7" fill="1" visible="yes" active="no"/>
+<layer number="48" name="Document" color="7" fill="1" visible="yes" active="no"/>
+<layer number="49" name="Reference" color="7" fill="1" visible="yes" active="no"/>
+<layer number="50" name="dxf" color="7" fill="1" visible="yes" active="no"/>
+<layer number="51" name="tDocu" color="7" fill="1" visible="yes" active="no"/>
+<layer number="52" name="bDocu" color="7" fill="1" visible="yes" active="no"/>
 <layer number="91" name="Nets" color="2" fill="1" visible="yes" active="yes"/>
 <layer number="92" name="Busses" color="1" fill="1" visible="yes" active="yes"/>
 <layer number="93" name="Pins" color="2" fill="1" visible="no" active="yes"/>
@@ -253,7 +253,7 @@
 </symbol>
 </symbols>
 <devicesets>
-<deviceset name="DSPIC33FJ64MC802" prefix="IC">
+<deviceset name="DSPIC33FJ128MC802" prefix="IC">
 <description>&lt;b&gt;High-Performance, 16-bit Digital Signal Controllers - dsPIC33FJ32MC302/304, dsPIC33FJ64MCX02/X04, AND dsPIC33FJ128MCX02/X04&lt;/b&gt;&lt;p&gt;
 Package: 28-Pin SDIP, SOIC, QFN-S
 
@@ -8673,12 +8673,12 @@ Type: &lt;b&gt;SPC4077 / SPC 4078&lt;/b&gt;&lt;p&gt;</description>
 <wire x1="0" y1="0" x2="0" y2="13.589" width="0.127" layer="21"/>
 <wire x1="19.939" y1="0" x2="19.939" y2="13.589" width="0.127" layer="21"/>
 <wire x1="19.939" y1="13.589" x2="0" y2="13.589" width="0.127" layer="21"/>
-<pad name="4" x="2.032" y="2.032" drill="1" diameter="1.778"/>
-<pad name="3" x="2.032" y="5.207" drill="1" diameter="1.778"/>
-<pad name="2" x="2.032" y="8.382" drill="1" diameter="1.778"/>
-<pad name="1" x="2.032" y="11.557" drill="1" diameter="1.778"/>
-<pad name="5" x="18.161" y="1.651" drill="1" diameter="1.778"/>
-<pad name="6" x="17.907" y="11.557" drill="1" diameter="1.778"/>
+<pad name="4" x="2.032" y="2.032" drill="1" diameter="1.9304"/>
+<pad name="3" x="2.032" y="5.207" drill="1" diameter="1.9304"/>
+<pad name="2" x="2.032" y="8.382" drill="1" diameter="1.9304"/>
+<pad name="1" x="2.032" y="11.557" drill="1" diameter="1.9304"/>
+<pad name="5" x="18.161" y="1.7018" drill="1" diameter="1.9304"/>
+<pad name="6" x="17.907" y="11.5062" drill="1" diameter="1.9304"/>
 <text x="10.16" y="5.842" size="1.016" layer="21" align="bottom-center">PTH08000W
 TROUGH HOLE</text>
 </package>
@@ -8718,10 +8718,10 @@ Bouton poussoir 4 pins, 1 contact</description>
 <circle x="2.7" y="2.7" radius="0.1" width="0.127" layer="21"/>
 <circle x="2.7" y="-2.7" radius="0.1" width="0.127" layer="21"/>
 <circle x="-2.7" y="-2.7" radius="0.1" width="0.127" layer="21"/>
-<pad name="1" x="-3.25" y="2.25" drill="0.8"/>
-<pad name="3" x="-3.25" y="-2.25" drill="0.8"/>
-<pad name="4" x="3.25" y="-2.25" drill="0.8"/>
-<pad name="2" x="3.25" y="2.25" drill="0.8"/>
+<pad name="1" x="-3.25" y="2.25" drill="0.8" diameter="1.524"/>
+<pad name="3" x="-3.25" y="-2.25" drill="0.8" diameter="1.524"/>
+<pad name="4" x="3.25" y="-2.25" drill="0.8" diameter="1.524"/>
+<pad name="2" x="3.25" y="2.25" drill="0.8" diameter="1.524"/>
 <wire x1="-3" y1="2.25" x2="-3" y2="-2.25" width="0.127" layer="21"/>
 <wire x1="-3" y1="-2.25" x2="-3" y2="-3" width="0.127" layer="21"/>
 <wire x1="-3.25" y1="2.25" x2="-3" y2="2.25" width="0.127" layer="21"/>
@@ -8934,11 +8934,11 @@ general purpose rectifier, 1 A</description>
 </class>
 </classes>
 <parts>
-<part name="IC1" library="microchip-dspic33fjxxmc" deviceset="DSPIC33FJ64MC802" device="-SP"/>
-<part name="C1" library="rcl" deviceset="C-EU" device="102-043X133" value="100nF"/>
+<part name="IC1" library="microchip-dspic33fjxxmc" deviceset="DSPIC33FJ128MC802" device="-SP"/>
+<part name="C1" library="rcl" deviceset="C-EU" device="050-035X075" value="100nF"/>
 <part name="C2" library="rcl" deviceset="C-EU" device="050-035X075" value="100nF"/>
 <part name="C3" library="rcl" deviceset="C-EU" device="025-030X050" value="10µF"/>
-<part name="R1" library="rcl" deviceset="R-EU_" device="0204/7" value="10k"/>
+<part name="R1" library="rcl" deviceset="R-EU_" device="0207/10" value="10k"/>
 <part name="+3V1" library="supply1" deviceset="+3V3" device=""/>
 <part name="+3V2" library="supply1" deviceset="+3V3" device=""/>
 <part name="+3V3" library="supply1" deviceset="+3V3" device=""/>
@@ -8959,22 +8959,22 @@ general purpose rectifier, 1 A</description>
 <part name="JP2" library="pinhead" deviceset="PINHD-1X6" device=""/>
 <part name="JP9" library="pinhead" deviceset="PINHD-1X9" device=""/>
 <part name="JP10" library="pinhead" deviceset="PINHD-1X4" device=""/>
-<part name="RLED1" library="rcl" deviceset="R-EU_" device="0204/7" value="330"/>
-<part name="RLED2" library="rcl" deviceset="R-EU_" device="0204/7" value="330"/>
+<part name="RLED1" library="rcl" deviceset="R-EU_" device="0207/10" value="330"/>
+<part name="RLED2" library="rcl" deviceset="R-EU_" device="0207/10" value="330"/>
 <part name="LED1" library="led" deviceset="LED" device="3MM"/>
 <part name="LED2" library="led" deviceset="LED" device="3MM"/>
 <part name="PE8" library="supply1" deviceset="PE" device=""/>
-<part name="RLED3" library="rcl" deviceset="R-EU_" device="0204/7" value="330"/>
+<part name="RLED3" library="rcl" deviceset="R-EU_" device="0207/10" value="330"/>
 <part name="LED3" library="led" deviceset="LED" device="3MM"/>
 <part name="JP12" library="jumper" deviceset="JP1E" device=""/>
 <part name="JP13" library="jumper" deviceset="JP1E" device=""/>
 <part name="J1" library="con-jack" deviceset="JACK-PLUG" device="1"/>
 <part name="GND7" library="supply1" deviceset="PE" device=""/>
 <part name="REG1" library="Perso" deviceset="PTH08000W(EUS)" device=""/>
-<part name="RSET" library="rcl" deviceset="R-EU_" device="0204/7" value="353"/>
+<part name="RSET" library="rcl" deviceset="R-EU_" device="0207/10" value="353"/>
 <part name="C4" library="rcl" deviceset="C-EU" device="050-035X075" value="100µF"/>
 <part name="C6" library="rcl" deviceset="C-EU" device="050-035X075" value="100µF"/>
-<part name="RLED4" library="rcl" deviceset="R-EU_" device="0204/7" value="330"/>
+<part name="RLED4" library="rcl" deviceset="R-EU_" device="0207/10" value="330"/>
 <part name="LED4" library="led" deviceset="LED" device="3MM"/>
 <part name="GND5" library="supply1" deviceset="PE" device=""/>
 <part name="P1" library="Perso" deviceset="BORNIER_3.5MM" device="" value="Vin"/>

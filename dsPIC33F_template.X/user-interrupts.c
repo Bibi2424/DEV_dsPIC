@@ -19,17 +19,19 @@
 #include <p33Fxxxx.h>      /* Includes device header file                     */
 #include <stdint.h>        /* Includes uint16_t definition                    */
 #include <stdbool.h>       /* Includes true/false definition                  */
-#include "user.h"        /* Function / Parameters                           */
+#include "user.h"          /* Function / Parameters                           */
 #include "timer.h"         /* Include timer fonctions                         */
+#include <libpic30.h>
 
 /******************************************************************************/
-/* User Functions                                                             */
+/* Setup Function                                                             */
 /******************************************************************************/
 
 void Setup(void)
 {
-    //pin de la LED en sortie
-    _TRISA0 = 0;
+    //pin des LEDs en sortie
+    _TRISA4 = 0;
+    _TRISB4 = 0;
     //Si on a un interrupteur sur la pin RB5 (par exemple), on la met en entrée
     _TRISB5 = 1;
     //Et on active la pullup qui va bien (registres CNPU1 et CNPU2)
@@ -49,18 +51,25 @@ void Setup(void)
 
 void Loop(void)
 {
-
+    led1 = !led1;    // On bascule l'état de la LED
+    __delay_ms(500);
 }
+
+/******************************************************************************/
+/* User Functions                                                             */
+/******************************************************************************/
+
+
 
 /******************************************************************************/
 /* Interrupt Routines                                                         */
 /******************************************************************************/
 
-void __attribute__((interrupt, auto_psv)) _T2Interrupt(void)
+/*void __attribute__((interrupt, auto_psv)) _T2Interrupt(void)
 {
-    led = !led;    // On bascule l'état de la LED
+    led1 = !led1;    // On bascule l'état de la LED
     _T2IF = 0;      // On baisse le FLAG
-}
+}*/
 
 /******************************************************************************/
 /* Interrupt Vector Options                                                   */
