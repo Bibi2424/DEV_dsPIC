@@ -1,6 +1,6 @@
 /*
-* Project   : Template dsPIC33F
-* File      : debug.h
+* Project   : Test Lib Servo
+* File      : LibServo.h
 * Compiler  : Microchip xC16
 * µC        : 33FJ64MC802
 * Start Date: Juillet 2012
@@ -20,26 +20,27 @@
 /******************************************************************************/
 
 #define PRESCALE 256
-#define TAILLE_MAX 10
-#define PERIOD_TIMER 3125
+#define TAILLE_MAX 10       // -> 8servos
+#define PERIOD_TIMER 3125   // -> 20ms
 
+//si value=1 on met à un le bit dans le port (OR), si value=0 on le met à 0 (AND)
 #define SET_BIT(port, bit, value) value ? port | (1<<bit) : port & (~(1<<bit))
 
 typedef struct Servo Servo;
 struct Servo
 {
-    char port;
-    int8_t pin;
-    uint16_t tics;
+    char port;      //A, B ou C
+    int8_t pin;     // 0 -> 15
+    uint16_t tics;  //Period en tics
 };
 
 typedef struct tableauServo tableauServo;
 struct tableauServo
 {
-    int8_t taille;
-    int8_t modif;
-    int8_t index;
-    Servo tab[TAILLE_MAX];
+    int8_t taille;  //Taille du tableau (sans les modifs)
+    int8_t modif;   //Nombre de modif
+    int8_t index;   //index courant
+    Servo tab[TAILLE_MAX];  //tableau de servo
 };
 
 /******************************************************************************/

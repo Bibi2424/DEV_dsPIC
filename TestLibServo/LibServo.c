@@ -1,5 +1,5 @@
 /*
-* Project   : Template dsPIC33F
+* Project   : Test Lib Servo
 * File      : user_interrupt.c
 * Compiler  : Microchip xC16
 * µC        : 33FJ64MC802
@@ -45,18 +45,16 @@ void InitLibServo()
 {
     //initialize Timer1
     OpenTimer1(T1_OFF & T1_IDLE_CON & T1_GATE_OFF & T1_PS_1_256 & T1_SYNC_EXT_OFF & T1_SOURCE_INT, PERIOD_TIMER);
-    ConfigIntTimer1(T1_INT_PRIOR_3 & T1_INT_ON);
+    ConfigIntTimer1(T1_INT_PRIOR_4 & T1_INT_ON);
 
     //Preparing structure
     tServo.index=0;
     tServo.modif=0;
     tServo.taille=2;
-    tServo.tab[0].tics=0;
-    tServo.tab[0].port='x';
-    tServo.tab[0].pin=-1;
-    tServo.tab[1].tics=PeriodToTic(0.02);
-    tServo.tab[1].port='x';
-    tServo.tab[1].pin=-1;
+    Servo zero = {'x', -1, 0};
+    tServo.tab[0] = zero;
+    Servo vingt = {'x', -1, PeriodToTic(0.02)};
+    tServo.tab[1] = vingt;
 
     //Start Timer 1
     _TON=1;
@@ -71,17 +69,16 @@ void ajouterServo(char port, int8_t pin)
 {
     Servo temp = {port, pin, 0};
     tServo.tab[tServo.taille+tServo.modif] = temp;
-    /*tServo.tab[tServo.taille+tServo.modif].port=port;
-    tServo.tab[tServo.taille+tServo.modif].pin=pin;
-    tServo.tab[tServo.taille+tServo.modif].tics=0;*/
     tServo.modif++;
 }
 
+//TODO proposer une modification par angle
 void modifierServoAngle(char port, int8_t pin, int16_t angle)
 {
     
 }
 
+//Comprise entre 1ms et 2ms
 void modifierServoPeriod(char port, int8_t pin, double period)
 {
     Servo temp = {port, pin, PeriodToTic(period)};
@@ -96,11 +93,13 @@ void trierTableau()
     Servo temp;
     uint8_t i,j;
     
-    //
+    //Pour chaque modif
     for(i=0;i<tServo.modif;i++)
     {
         isFound = false;
         temp = tServo.tab[ancienneTaille+i];
+        //On cherche si le servo est dans le tableau (même port, même pin,
+        //si on la trouve, on la supprime
         for(j=0; j<tServo.taille; j++)
         {
             if(isFound == false && tServo.tab[j].port == temp.port && tServo.tab[j].pin == temp.pin)
@@ -114,6 +113,7 @@ void trierTableau()
                 tServo.tab[j] = tServo.tab[j+1];
             }
         }
+        //Puis on ajoute la modif par ordre croissant de tics
         for(j=tServo.taille-1; j>=0; j--)
         {
             tServo.tab[j+1] = tServo.tab[j];
@@ -164,25 +164,23 @@ void __attribute__((interrupt,auto_psv)) _T1Interrupt(void)
     //At the end of 20ms
     if(tServo.index == tServo.taille-1)
     {
-        tServo.index = 0;
+        tServo.index = 0;   //Réinitialise l'index
         for(i=1; i<tServo.taille-1; i++)
-            setPin(tServo.tab[i].port, tServo.tab[i].pin, 1);
+            setPin(tServo.tab[i].port, tServo.tab[i].pin, 1);   //Toutes les pins à 1
         if(tServo.modif>0)
-            trierTableau();
+            trierTableau(); //Si il y a eu des modifs, on trie le tableau
+//TODO rajouter un tableau avec tous les nextInt pour éviter de les calculer à chaque fois
     }
 
     //Compute Next Interrupt
     do
     {
-        nextInt = tServo.tab[tServo.index+1].tics - tServo.tab[tServo.index].tics;
-        //Turn off the corresponding pin
-        setPin(tServo.tab[tServo.index].port, tServo.tab[tServo.index].pin, 0);
-
+        nextInt = tServo.tab[tServo.index+1].tics - tServo.tab[tServo.index].tics;  //Calcul de la prochaine interruption
+        setPin(tServo.tab[tServo.index].port, tServo.tab[tServo.index].pin, 0);     //Pin à 0
         tServo.index++;
-    }while(nextInt == 0);
-    WriteTimer1(PERIOD_TIMER - nextInt);
-
-    led1 = led1^1;    // On bascule l'état de la LED
+    }while(nextInt == 0);   //Si la prochaine interruption est maintenant, on calcul la suivante
+    
+    WriteTimer1(PERIOD_TIMER - nextInt);  //On prépare le timer
 
     _TON=1;     //Active Timer 1
     _T1IF = 0;      // On baisse le FLAG

@@ -1,5 +1,5 @@
 /*
-* Project   : Template dsPIC33F
+* Project   : Test Lib Servo
 * File      : user_interrupt.c
 * Compiler  : Microchip xC16
 * µC        : 33FJ64MC802
@@ -22,6 +22,7 @@
 #include <stdint.h>        /* Includes uint16_t definition                    */
 #include <stdbool.h>       /* Includes true/false definition                  */
 #include <stdio.h>
+#include <libpic30.h>
 #include "timer.h"
 #include "user.h"          /* Function / Parameters                           */
 #include "debug.h"
@@ -51,16 +52,19 @@ void InitApp(void)
     led = 0;
     led1 = 0;
 
-    OpenTimer2(T2_ON & T2_GATE_OFF & T2_PS_1_8 & T2_32BIT_MODE_OFF & T2_SOURCE_INT, 500);
-    //ConfigIntTimer2(T2_INT_PRIOR_6 & T2_INT_ON);
+    OpenTimer2(T2_ON & T2_GATE_OFF & T2_PS_1_256 & T2_32BIT_MODE_OFF & T2_SOURCE_INT, 50000);
+    ConfigIntTimer2(T2_INT_PRIOR_2 & T2_INT_ON);
 
     //Init debug on UART, TX->RP8, RX->RP9
     InitDebug(8,9);
 
     //Init the Servo Lib
     InitLibServo();
-    ajouterServo('B',2);
-    ajouterServo('B',3);
+    ajouterServo('B',2);    //Initialise RB2, pas obligatoire
+    ajouterServo('B',3);    //Initialise RB3, pas obligatoire
+    __delay_ms(100);
+    modifierServoPeriod('B',2,0.0015);    //1.5ms, milieu
+    modifierServoPeriod('B',3,0.002);     //2ms, droite
 }
 
 
@@ -72,8 +76,7 @@ void InitApp(void)
 
 void __attribute__((interrupt,auto_psv)) _T2Interrupt(void)
 {
-    //printf("Led %d\n", led);
-    //led = led^1;    // On bascule l'état de la LED
+    led = led^1;    // On bascule l'état de la LED
     _T2IF = 0;      // On baisse le FLAG
 }
 

@@ -1,5 +1,5 @@
 /*
-* Project   : Template dsPIC33F
+* Project   : Test Lib Servo
 * File      : main.c
 * Compiler  : Microchip xC16
 * µC        : 33FJ64MC802
@@ -53,17 +53,11 @@ int16_t main(void)
     ConfigureOscillator();
     InitApp();
 
-    printf("Program Running\n");
-
-    __delay_ms(100);
-    modifierServoPeriod('B',2,0.01);
-    modifierServoPeriod('B',3,0.005);
-    
+    printf("Program Running\n");    
 
     while(1)
     {
         //Do nothing
-        __delay_ms(100);
     }
 }
 

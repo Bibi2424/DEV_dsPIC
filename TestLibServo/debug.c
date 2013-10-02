@@ -1,5 +1,5 @@
 /*
-* Project   : Template dsPIC33F
+* Project   : Test Lib Servo
 * File      : debug.c
 * Compiler  : Microchip xC16
 * µC        : 33FJ64MC802
