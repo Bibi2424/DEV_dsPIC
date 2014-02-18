@@ -17,13 +17,7 @@
 /******************************************************************************/
 /* Files to Include                                                           */
 /******************************************************************************/
-
-#include <p33Fxxxx.h>      /* Includes device header file                     */
-#include <stdint.h>        /* Includes uint16_t definition                    */
-#include <stdbool.h>       /* Includes true/false definition                  */
-#include "timer.h"
 #include "user.h"          /* Function / Parameters                           */
-#include "debug.h"
 
 /******************************************************************************/
 /* User Functions                                                             */
@@ -47,16 +41,16 @@ void InitApp(void)
     _TRISA0 = 0;
     led = 0;
 
-    OpenTimer2(T2_ON & T2_GATE_OFF & T2_PS_1_256 & T2_32BIT_MODE_OFF & T2_SOURCE_INT, 65535);
-    ConfigIntTimer2(T2_INT_PRIOR_3 & T2_INT_ON);
-
     //Init debug on UART, TX->RP8, RX->RP9
     InitDebug(8,9);
-}
 
-uint16_t setBit(uint16_t port, uint8_t pin, uint8_t value)
-{
-    return (value==1 ? port | (1<<pin) : port & (~(1<<pin)));
+    //Configuration du Output Compare 1
+    OpenOC1(OC_IDLE_CON & OC_TIMER2_SRC & OC_HIGH_LOW, 20, 20);
+    ConfigIntOC1(OC_INT_ON & OC_INT_PRIOR_4);
+
+    //Configuration du Timer 2, période 2.5µs
+    OpenTimer2(T2_ON & T2_GATE_OFF & T2_PS_1_1 & T2_32BIT_MODE_OFF & T2_SOURCE_INT, 100);
+    ConfigIntTimer2(T2_INT_ON & T2_INT_PRIOR_4);
 }
 
 /******************************************************************************/
@@ -64,18 +58,18 @@ uint16_t setBit(uint16_t port, uint8_t pin, uint8_t value)
 /*                      Interrupt Routines                                    */
 /*                                                                            */
 /******************************************************************************/
-int i=0;
+
 void __attribute__((interrupt,auto_psv)) _T2Interrupt(void)
 {
-    if(i==1) {
-        LATA = SET_BIT(LATA, 0, 1);
-        i = ((i+1)%2);
-    } else {
-        LATA = SET_BIT(LATA, 0, 0);
-        i = ((i+1)%2);
-    }
-    //led = led^1;    // On bascule l'état de la LED
+    printf("T2 interrupt\n");
+    led = led^1;    // On bascule l'état de la LED
     _T2IF = 0;      // On baisse le FLAG
+}
+
+void __attribute__((interrupt,auto_psv)) _OC1Interrupt(void)
+{
+    printf("OC1 interrupt\n");
+    _OC1IF = 0;      // On baisse le FLAG
 }
 
 /******************************************************************************/
@@ -139,3 +133,4 @@ void __attribute__((interrupt,auto_psv)) _T2Interrupt(void)
 /* <compiler installation directory>/doc directory for the latest compiler    */
 /* release.                                                                   */
 /*                                                                            */
+/******************************************************************************/

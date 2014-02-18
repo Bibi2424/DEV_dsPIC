@@ -16,6 +16,18 @@
 #ifndef USER_H
 #define USER_H
 /******************************************************************************/
+/* Files to Include                                                           */
+/******************************************************************************/
+#include <p33Fxxxx.h>      /* Includes device header file                     */
+#include <stdint.h>        /* Includes uint16_t definition                    */
+#include <stdbool.h>       /* Includes true/false definition                  */
+#include <stdio.h>         /* Include printf                                  */
+#include <libpic30.h>
+#include "debug.h"
+#include "timer.h"
+#include "outcompare.h"
+
+/******************************************************************************/
 /* System Level #define Macros                                                */
 /******************************************************************************/
 
@@ -26,7 +38,10 @@
 #define UNLOCK_RP        __builtin_write_OSCCONL(OSCCON & 0xBF)
 #define LOCK_RP          __builtin_write_OSCCONL(OSCCON | 0x40)
 
-#define SET_BIT(port, pin, value) (value==1 ? port | (1<<pin) : port & (~(1<<pin)))
+//Macro pour mettre le bit 'bit' du port 'port' à 'value'
+//(ex: SET_BIT(LATA, 0, 1) == LATAbits.LATA0 = 1 == _LATA0 = 1)
+#define SET_BIT(port, bit, value) value ? port | (1<<bit) : port & (~(1<<bit))
+//si value=1 on met à 1 le bit dans le port (OR), si value=0 on le met à 0 (AND)
 
 /******************************************************************************/
 /* User Level #define Macros                                                  */
