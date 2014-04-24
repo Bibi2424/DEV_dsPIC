@@ -1,0 +1,13 @@
+s=serial('COM4');
+set(s,'BaudRate',115200);
+fopen(s);
+
+
+
+while 1,
+    [line, cnt] = fgets(s);
+    if cnt > 0
+       line(8:11)
+       line(15:18)
+    end
+end
