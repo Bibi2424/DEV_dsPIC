@@ -44,12 +44,12 @@ void InitApp(void)
     //Init debug on UART, TX->RP8, RX->RP9
     InitDebug(8,9);
 
-    //Configuration du Output Compare 1
+    //Configuration du Output Compare 1 en mode PWM
     OpenOC1(OC_IDLE_CON & OC_TIMER2_SRC & OC_HIGH_LOW, 20, 20);
-    ConfigIntOC1(OC_INT_ON & OC_INT_PRIOR_4);
+    _RP15R = 18;         //OC1(18) sur RP1;
 
-    //Configuration du Timer 2, période 2.5µs
-    OpenTimer2(T2_ON & T2_GATE_OFF & T2_PS_1_1 & T2_32BIT_MODE_OFF & T2_SOURCE_INT, 100);
+    //Configuration du Timer 2, période 20ms
+    OpenTimer2(T2_ON & T2_GATE_OFF & T2_PS_1_256 & T2_32BIT_MODE_OFF & T2_SOURCE_INT, 3125);
     ConfigIntTimer2(T2_INT_ON & T2_INT_PRIOR_4);
 }
 

@@ -41,16 +41,19 @@ void setup() {
   pinMode(ledPin, OUTPUT); 
   pinMode(push_pin, INPUT_PULLUP);
   Serial.begin(9600);
-  Serial.println("Good to go");
+  //Serial.println("Good to go");
 }
 
 void loop() {
   // read the value from the sensor:
   X_value = analogRead(X_pin);  
-  Y value = analogRead(Y_pin);
+  Y_value = analogRead(Y_pin);
+  push_value = digitalRead(push_pin);
   Serial.print(X_value);
   Serial.print(" ");
   Serial.print(Y_value);
   Serial.print(" ");
   Serial.println(push_value);
+  
+  delay(100);
 }

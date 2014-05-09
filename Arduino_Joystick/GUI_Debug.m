@@ -22,7 +22,7 @@ function varargout = GUI_Debug(varargin)
 
 % Edit the above text to modify the response to help GUI_Debug
 
-% Last Modified by GUIDE v2.5 25-Oct-2013 14:59:57
+% Last Modified by GUIDE v2.5 26-Apr-2014 10:35:43
 
 %TODO :
 %    -> Check if 'a' is correctly reeded
@@ -117,11 +117,16 @@ if(handles.s.BytesAvailable > 0)
 
     a = fscanf(handles.s, '%8f %8f %8f');   %Read from serial
 
+    disp(a);
+    
     if numel(a) == 3                        %If input data is correct
     
         handles.x = a(1);
         handles.y = a(2);
         handles.z = a(2);
+        
+        set(handles.textX, 'Value', a(1));
+        %set(handles.textY, 'String', a(2));
 
         plot(handles.osc, a(1), a(2), 'x');
         drawnow;
@@ -185,7 +190,7 @@ end
 %Configure Serial Port
 
 set(handles.s, 'InputBufferSize', 256);     %number of bytes in inout buffer
-set(handles.s, 'BaudRate', 115200);
+set(handles.s, 'BaudRate', 9600);
 set(handles.s, 'Parity', 'none');
 set(handles.s, 'DataBits', 8);
 set(handles.s, 'StopBit', 1);
@@ -215,6 +220,7 @@ function pushbutton_portClose_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 set(handles.edit_port, 'String', [get(handles.s,'Name'), ' closed']);
 set(handles.uipanel1, 'Visible', 'off');
+fclose(handles.s);
 delete(instrfind);
 
 % --- Executes on button press in togglebutton_OnOff.
@@ -253,36 +259,10 @@ guidata(hObject, handles);
 
 
 
-function edit_length_Callback(hObject, eventdata, handles)
-% hObject    handle to edit_length (see GCBO)
+% --- Executes on button press in radiobutton1.
+function radiobutton1_Callback(hObject, eventdata, handles)
+% hObject    handle to radiobutton1 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-% Hints: get(hObject,'String') returns contents of edit_length as text
-%        str2double(get(hObject,'String')) returns contents of edit_length as a double
-%handles.length = str2double(get(hObject,'String'));     %Set the variable length to the value specified on the box
-guidata(hObject, handles);
-
-% --- Executes on button press in update_length.
-function update_length_Callback(hObject, eventdata, handles)
-% hObject    handle to update_length (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-handles.length = str2double(get(handles.edit_length,'String'));     %Set the variable length to the value specified on the box
-handles.y = zeros(1,handles.length);            %Reset y
-handles.osc = plot(handles.axes_osc, (1:handles.length), handles.y);
-guidata(hObject, handles);
-
-% --- Executes during object creation, after setting all properties.
-function edit_length_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to edit_length (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-    set(hObject,'String',100);
-end
-
+% Hint: get(hObject,'Value') returns toggle state of radiobutton1
