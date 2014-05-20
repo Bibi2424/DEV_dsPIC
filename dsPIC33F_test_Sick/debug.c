@@ -78,7 +78,7 @@ void InitDebug(int U1TX, int U1RX)
     _U1RXR = U1RX; // RP9  = U1RX (p.165)
     LOCK_RP;
 
-    ConfigIntUART1(UART_RX_INT_EN & UART_TX_INT_EN & UART_RX_INT_PR3 & UART_TX_INT_PR3);
+    ConfigIntUART1(UART_RX_INT_EN & UART_TX_INT_EN & UART_RX_INT_PR4 & UART_TX_INT_PR5);
 }
 
 void StartDebugTimer(void)

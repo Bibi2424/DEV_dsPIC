@@ -29,20 +29,18 @@ _FOSC(POSCMD_NONE & OSCIOFNC_ON & IOL1WAY_OFF & FCKSM_CSDCMD);
 // Watchdog Timer.
 _FWDT(FWDTEN_OFF);
 // Select debug channel.
-_FICD(ICS_PGD1 & JTAGEN_OFF);
+_FICD(ICS_PGD3 & JTAGEN_OFF);
 
 /******************************************************************************/
 /* Global Variable Declaration                                                */
 /******************************************************************************/
 
 /* i.e. uint16_t <variable_name>; */
-volatile uint16_t cpt = 0;
 volatile uint16_t channel = 0;
-volatile uint16_t channel_current = 0;
-volatile uint16_t channel_dist = 0;
-volatile uint16_t Buff_adc_current[2];
-volatile uint16_t Buff_adc_dist[3] = {0,0,0};
-volatile uint16_t Buff_adc_sector[3] = {0,0,0};
+volatile uint16_t Dist;
+volatile uint16_t Sector[3] = {0,0,0};
+volatile uint16_t Old_Sector[3] = {0,0,0};
+volatile uint16_t Stick[2];
 
 /******************************************************************************/
 /* Main Program                                                               */
@@ -52,13 +50,13 @@ int16_t main(void)
 {
     // Initialize IO ports and peripherals.
     ConfigureOscillator();
-    InitApp();
+    //Init debug on UART, TX->RP8, RX->RP9
+    InitDebug(8,9);
     printf("Program Running\n");
+    //Init User Applications
+    InitApp();
+    //Init ADC
     InitADC();
-
-
-        OC1RS = 234;
-        _LATC4 = 1;
 
     while(1)
     {

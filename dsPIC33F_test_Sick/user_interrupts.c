@@ -23,13 +23,12 @@
 /* Global Variable Declaration                                                */
 /******************************************************************************/
 
-extern volatile uint16_t cpt;
 extern volatile uint16_t channel;
-extern volatile uint16_t channel_current;
-extern volatile uint16_t channel_dist;
-extern volatile uint16_t Buff_adc_current[2];
-extern volatile uint16_t Buff_adc_dist[3];
-extern volatile uint16_t Buff_adc_sector[3];
+extern volatile uint16_t Dist;
+extern volatile uint16_t Sector[3];
+extern volatile uint16_t Old_Sector[3];
+extern volatile uint16_t Stick[2];
+
 
 uint16_t time = 0;
 
@@ -55,22 +54,8 @@ void InitApp(void)
     _TRISA0 = 0;
     led = 0;
 
-    _TRISC4 = 0;
-    _LATC4 = 0;
-
-    //Init debug on UART, TX->RP8, RX->RP9
-    InitDebug(8,9);
-
-    //Configuration du Output Compare 1 en mode PWM
-    OpenOC1(OC_IDLE_CON & OC_TIMER2_SRC & OC_PWM_FAULT_PIN_DISABLE, 234, 0);   //1.5ms
-    _TRISC5 = 0;        //RC5 en sortie
-    _ODCC5 = 1;         //Open Drain
-    UNLOCK_RP;
-    _RP21R = 18;        //OC1(18) sur RP21;
-    LOCK_RP;
-
     //Configuration du Timer 2, période 20ms pour l'OC1
-    OpenTimer2(T2_ON & T2_GATE_OFF & T2_PS_1_256 & T2_32BIT_MODE_OFF & T2_SOURCE_INT, 3000);
+    OpenTimer2(T2_ON & T2_GATE_OFF & T2_PS_1_256 & T2_32BIT_MODE_OFF & T2_SOURCE_INT, 3125);
     ConfigIntTimer2(T2_INT_ON & T2_INT_PRIOR_4);
 
 }
@@ -83,9 +68,9 @@ void InitADC()
    //AD1CON1 Confugration
    AD1CON1bits.ADON = 0;    //Eteindre A/D converter pour la configuration
    AD1CON1bits.FORM = 0;    //Configure le format de la sortie de l'ADC ( 3=signed float, 2=unsigned float, 1=signed integer, 0=unsigned integer
-   AD1CON1bits.SSRC = 7;    //Config de l'échantillonnage : AutoConvert
-   AD1CON1bits.SIMSAM = 0;  //Sample CH0
-   AD1CON1bits.ASAM = 0;    //Début d'échantillonnage (1=tout de suite  0=dès que AD1CON1bits.SAMP est activé)
+   AD1CON1bits.SSRC = 4;    //Config de l'échantillonnage : Timer5
+   AD1CON1bits.SIMSAM = 0;  //Simultaneously Sample CH0
+   AD1CON1bits.ASAM = 1;    //Début d'échantillonnage (1=tout de suite  0=dès que AD1CON1bits.SAMP est activé)
    AD1CON1bits.AD12B = 0;   //Choix du type de converter (10 ou 12 bits) 0 = 10 bits , 1 = 12bits
 
    //AD1CON2 Configuration
@@ -96,7 +81,7 @@ void InitADC()
    AD1CON3bits.ADRC = 1;        //Choix du type de clock interne (=1) ou externe (=0)
 
    //Choix des références de tensions
-   AD1CHS0bits.CH0SA = 1;	// Choix du (+) de la mesure pour le channel CH0 (0 = AN0) par défault
+   AD1CHS0bits.CH0SA = 4;	// Choix du (+) de la mesure pour le channel CH0 (0 = AN0) par défault
    AD1CHS0bits.CH0NA = 0;	// Choix du (-) de la mesure pour le channel CH0 (0 = Masse interne pic)
 
    //Configuration des pins analogiques
@@ -113,20 +98,14 @@ void InitADC()
     */
 
    //Configuration du Timer 5, pour l'ADC
-    OpenTimer5(T5_ON & T5_GATE_OFF & T5_PS_1_1 & T5_SOURCE_INT, 1000);  //25µs
-    ConfigIntTimer5(T5_INT_ON & T5_INT_PRIOR_5);
+    OpenTimer5(T5_ON & T5_GATE_OFF & T5_PS_1_256 & T5_SOURCE_INT, 15625);
 
    //Configuration des interuption
    IFS0bits.AD1IF = 0;      //Mise à 0 du flag d'interrupt de ADC1
    IEC0bits.AD1IE = 1;      //Enable les interruptions d'ADC1
-   IPC3bits.AD1IP = 3;      //Et les prioritées (ici prio = 3)
+   IPC3bits.AD1IP = 2;      //Et les prioritées (ici prio = 2)
    AD1CON1bits.SAMP = 0;
    AD1CON1bits.ADON = 1;    // Turn on the A/D converter
-}
-
-int Angle(float angle)
-{
-   return (int)(angle*0.8667+156);
 }
 
 /******************************************************************************/
@@ -137,79 +116,75 @@ int Angle(float angle)
 
 void __attribute__((interrupt,auto_psv)) _T2Interrupt(void)
 {
-    printf("T2 interrupt\n");
     led = led^1;            // On bascule l'état de la LED
     _LATB7 = _LATB7^1;
 
     _T2IF = 0;              // On baisse le FLAG
 }
 
-void __attribute__((interrupt,auto_psv)) _T5Interrupt(void)
-{
-    if(channel == 0)    //Les deux capteurs de courants à la suite
-    {
-        _CH0SA = Current_G;
-        _SAMP = 1; //Start sampling
-    }
-    else if(cpt == TEMPS_DIST-1)    //Un des capteurs de distance
-    {
-        cpt = 0;
-        switch(channel_dist)
-        {
-            case 0:
-                _CH0SA = Dist_1;
-            break;
-            case 1:
-                _CH0SA = Dist_2;
-            break;
-            case 2:
-                _CH0SA = Dist_3;
-            break;
-        }
-        _SAMP = 1; //Start sampling
-    }
-    else
-    {
-        cpt++;
-    }
-    _T5IF = 0;
-}
-
+//Distance en TOR
 void __attribute__ ((interrupt, auto_psv)) _ADC1Interrupt(void)
  {
+    StartDebugTimer();
 
-    if(channel == 0)
+    switch(channel)
     {
-        if(channel_current == 0)
-        {
-            Buff_adc_current[0] = ADC1BUF0;
-            _CH0SA = Current_D;
-            _SAMP = 1;
-            channel_current = 1;
-        }
-        else
-        {
-            Buff_adc_current[1] = ADC1BUF0;
-            channel_current = 0;
-            channel = 1;
-        }
+        case 0:
+            Sector[0] = ADC1BUF0;
+            if(Sector[0] > SEUIL_HAUT && Old_Sector[0] == 0)
+            {
+                Old_Sector[0] = 1;
+                printf("Capteur 1, Détection : OUI\n");
+            }
+            else if(Sector[0] < SEUIL_BAS && Old_Sector[0] == 1)
+            {
+                Old_Sector[0] = 0;
+                printf("Capteur 1, Détection : NON\n");
+            }
+            _CH0SA = Dist_2;
+        break;
+        case 1:
+            Sector[1] = ADC1BUF0;
+            if(Sector[1] > SEUIL_HAUT && Old_Sector[1] == 0)
+            {
+                Old_Sector[1] = 1;
+                printf("Capteur 2, Détection : OUI\n");
+            }
+            else if(Sector[1] < SEUIL_BAS && Old_Sector[1] == 1)
+            {
+                Old_Sector[1] = 0;
+                printf("Capteur 2, Détection : NON\n");
+            }
+            _CH0SA = Dist_3;
+        break;
+        case 2:
+            Sector[2] = ADC1BUF0;
+            if(Sector[2] > SEUIL_HAUT && Old_Sector[2] == 0)
+            {
+                Old_Sector[2] = 1;
+                printf("Capteur 3, Détection : OUI\n");
+            }
+            else if(Sector[2] < SEUIL_BAS && Old_Sector[2] == 1)
+            {
+                Old_Sector[2] = 0;
+                printf("Capteur 3, Détection : NON\n");
+            }
+            _CH0SA = Stick_X;
+        break;
+        case 3:
+            Stick[0]  = ADC1BUF0;
+            _CH0SA = Stick_Y;
+        break;
+        case 4:
+            Stick[1]  = ADC1BUF0;
+            _CH0SA = Dist_1;
+        break;
     }
-    else
-    {
-        Buff_adc_dist[channel_dist] = ADC1BUF0;
-        if(Buff_adc_dist[channel_dist] > SEUIL_HAUT && Buff_adc_sector[channel_dist] == 0)
-        {
-            Buff_adc_sector[channel_dist] = 1;
-            printf("Capteur %d: Détection OUI\n", channel_dist+1);
-        }
-        else if(Buff_adc_dist[channel_dist] < SEUIL_BAS && Buff_adc_sector[channel_dist] == 1)
-        {
-            Buff_adc_sector[channel_dist] = 0;
-            printf("Capteur %d: Détection NON\n", channel_dist+1);
-        }
-        channel_dist = (channel_dist+1)%3;
-        channel = 0;
-    }
+    channel = (channel+1)%5;
+
+    time = ReadStopDebugTimer();
+    if(channel  ==0) 
+    {led = led^1;}
 
     _AD1IF = 0;        //Clear the interrupt flag
  }
@@ -276,3 +251,55 @@ void __attribute__ ((interrupt, auto_psv)) _ADC1Interrupt(void)
 /* release.                                                                   */
 /*                                                                            */
 /******************************************************************************/
+
+//Classe la distance en secteur
+/*void __attribute__ ((interrupt, auto_psv)) _ADC1Interrupt(void)
+ {
+    StartDebugTimer();
+
+    switch(channel)
+    {
+        case 0:
+            Dist = ADC1BUF0>>6;
+            if(Sector[0] > Dist+1 || (Dist > 0 && Sector[0] < Dist-1))
+            {
+                Sector[0] = Dist;
+                printf("Capteur 1, New Sector : %d (Value : %d)\n", Sector[0]>>1, Dist);
+            }
+            _CH0SA = Dist_2;
+        break;
+        case 1:
+            Dist  = ADC1BUF0>>6;
+            if(Sector[1] > Dist+1 || (Dist > 0 && Sector[1] < Dist-1))
+            {
+                Sector[1] = Dist;
+                printf("Capteur 2, New Sector : %d (Value : %d)\n", Sector[1]>>1, Dist);
+            }
+            _CH0SA = Dist_3;
+        break;
+        case 2:
+            Dist  = ADC1BUF0>>6;
+            if(Sector[2] > Dist+1 || (Dist > 0 && Sector[2] < Dist-1))
+            {
+                Sector[2] = Dist;
+                printf("Capteur 3, New Sector : %d (Value : %d)\n", Sector[0]>>1, Dist);
+            }
+            _CH0SA = Stick_X;
+        break;
+        case 3:
+            Stick[0]  = ADC1BUF0;
+            _CH0SA = Stick_Y;
+        break;
+        case 4:
+            Stick[1]  = ADC1BUF0;
+            _CH0SA = Dist_1;
+        break;
+    }
+    channel = (channel+1)%5;
+
+    time = ReadStopDebugTimer();
+    if(channel  ==0)
+    {led = led^1;}
+
+    _AD1IF = 0;        //Clear the interrupt flag
+ }*/

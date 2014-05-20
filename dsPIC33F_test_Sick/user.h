@@ -48,22 +48,18 @@
 /******************************************************************************/
 
 #define led _LATA0
-
-//ADC
 #define Dist_1  1
 #define Dist_2  2
 #define Dist_3  3
-#define Current_G 4
-#define Current_D 5
+#define Stick_X 4
+#define Stick_Y 5
 
-#define TEMPS_DIST 4000 //temps_Dist(instr) = temps_Dist(s)/temps_Current(s)
-
-#define SEUIL_SICK 500  //TBC
-#define MARGE_SICK 100  //TBC
+#define SEUIL_SICK 200  //TBC
+#define MARGE_SICK 50  //TBC
 #define SEUIL_HAUT SEUIL_SICK+MARGE_SICK
 #define SEUIL_BAS SEUIL_SICK-MARGE_SICK
 
-//#define ANGLE(angle) (int)((float)angle*0.8667+156)
+#define ANGLE(angle) (int)((float)angle*0.8667+156)
 
 /******************************************************************************/
 /* Function Prototypes                                                        */
@@ -74,7 +70,5 @@ void ConfigureOscillator(void);    /* Handles clock switching/osc initialization
 void InitApp(void);             /* I/O and Peripheral Initialization          */
 
 void InitADC(void);
-
-int Angle(float angle);
 
 #endif  /* USER_H */
