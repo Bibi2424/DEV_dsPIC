@@ -36,6 +36,7 @@ _FICD(ICS_PGD1 & JTAGEN_OFF);
 /******************************************************************************/
 
 /* i.e. uint16_t <variable_name>; */
+volatile uint16_t i = 0;
 volatile uint16_t cpt = 0;
 volatile uint16_t channel = 0;
 volatile uint16_t channel_current = 0;

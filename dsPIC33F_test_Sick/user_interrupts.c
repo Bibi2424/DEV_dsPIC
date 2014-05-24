@@ -52,7 +52,9 @@ void InitApp(void)
 
     //Init des E/S
     _TRISA0 = 0;
+    _TRISB8 = 0;
     led = 0;
+    led2 = 0;
 
     //Configuration du Timer 2, période 20ms pour l'OC1
     OpenTimer2(T2_ON & T2_GATE_OFF & T2_PS_1_256 & T2_32BIT_MODE_OFF & T2_SOURCE_INT, 3125);
@@ -117,7 +119,6 @@ void InitADC()
 void __attribute__((interrupt,auto_psv)) _T2Interrupt(void)
 {
     led = led^1;            // On bascule l'état de la LED
-    _LATB7 = _LATB7^1;
 
     _T2IF = 0;              // On baisse le FLAG
 }
@@ -134,11 +135,13 @@ void __attribute__ ((interrupt, auto_psv)) _ADC1Interrupt(void)
             if(Sector[0] > SEUIL_HAUT && Old_Sector[0] == 0)
             {
                 Old_Sector[0] = 1;
+                led2 = 1;
                 printf("Capteur 1, Détection : OUI\n");
             }
             else if(Sector[0] < SEUIL_BAS && Old_Sector[0] == 1)
             {
                 Old_Sector[0] = 0;
+                led2 = 0;
                 printf("Capteur 1, Détection : NON\n");
             }
             _CH0SA = Dist_2;
@@ -169,21 +172,13 @@ void __attribute__ ((interrupt, auto_psv)) _ADC1Interrupt(void)
                 Old_Sector[2] = 0;
                 printf("Capteur 3, Détection : NON\n");
             }
-            _CH0SA = Stick_X;
-        break;
-        case 3:
-            Stick[0]  = ADC1BUF0;
-            _CH0SA = Stick_Y;
-        break;
-        case 4:
-            Stick[1]  = ADC1BUF0;
             _CH0SA = Dist_1;
         break;
     }
-    channel = (channel+1)%5;
+    channel = (channel+1)%3;
 
     time = ReadStopDebugTimer();
-    if(channel  ==0) 
+    if(channel  == 0)
     {led = led^1;}
 
     _AD1IF = 0;        //Clear the interrupt flag

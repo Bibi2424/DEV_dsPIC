@@ -23,6 +23,7 @@
 /* Global Variable Declaration                                                */
 /******************************************************************************/
 
+extern volatile uint16_t i;
 extern volatile uint16_t cpt;
 extern volatile uint16_t channel;
 extern volatile uint16_t channel_current;

@@ -48,6 +48,8 @@
 /******************************************************************************/
 
 #define led _LATA0
+#define led2 _LATB8
+
 #define Dist_1  1
 #define Dist_2  2
 #define Dist_3  3
