@@ -45,17 +45,17 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Source Files Quoted if spaced
-SOURCEFILES_QUOTED_IF_SPACED=debug.c main.c user_interrupts.c
+SOURCEFILES_QUOTED_IF_SPACED=debug.c main.c user_interrupts.c Sick.c
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/debug.o ${OBJECTDIR}/main.o ${OBJECTDIR}/user_interrupts.o
-POSSIBLE_DEPFILES=${OBJECTDIR}/debug.o.d ${OBJECTDIR}/main.o.d ${OBJECTDIR}/user_interrupts.o.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/debug.o ${OBJECTDIR}/main.o ${OBJECTDIR}/user_interrupts.o ${OBJECTDIR}/Sick.o
+POSSIBLE_DEPFILES=${OBJECTDIR}/debug.o.d ${OBJECTDIR}/main.o.d ${OBJECTDIR}/user_interrupts.o.d ${OBJECTDIR}/Sick.o.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/debug.o ${OBJECTDIR}/main.o ${OBJECTDIR}/user_interrupts.o
+OBJECTFILES=${OBJECTDIR}/debug.o ${OBJECTDIR}/main.o ${OBJECTDIR}/user_interrupts.o ${OBJECTDIR}/Sick.o
 
 # Source Files
-SOURCEFILES=debug.c main.c user_interrupts.c
+SOURCEFILES=debug.c main.c user_interrupts.c Sick.c
 
 
 CFLAGS=
@@ -100,6 +100,13 @@ ${OBJECTDIR}/user_interrupts.o: user_interrupts.c  nbproject/Makefile-${CND_CONF
 	${MP_CC} $(MP_EXTRA_CC_PRE)  user_interrupts.c  -o ${OBJECTDIR}/user_interrupts.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/user_interrupts.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -omf=elf -O0 -msmart-io=1 -Wall -msfr-warn=off
 	@${FIXDEPS} "${OBJECTDIR}/user_interrupts.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
+${OBJECTDIR}/Sick.o: Sick.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR} 
+	@${RM} ${OBJECTDIR}/Sick.o.d 
+	@${RM} ${OBJECTDIR}/Sick.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  Sick.c  -o ${OBJECTDIR}/Sick.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/Sick.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -omf=elf -O0 -msmart-io=1 -Wall -msfr-warn=off
+	@${FIXDEPS} "${OBJECTDIR}/Sick.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
+	
 else
 ${OBJECTDIR}/debug.o: debug.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR} 
@@ -121,6 +128,13 @@ ${OBJECTDIR}/user_interrupts.o: user_interrupts.c  nbproject/Makefile-${CND_CONF
 	@${RM} ${OBJECTDIR}/user_interrupts.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  user_interrupts.c  -o ${OBJECTDIR}/user_interrupts.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/user_interrupts.o.d"      -g -omf=elf -O0 -msmart-io=1 -Wall -msfr-warn=off
 	@${FIXDEPS} "${OBJECTDIR}/user_interrupts.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
+	
+${OBJECTDIR}/Sick.o: Sick.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR} 
+	@${RM} ${OBJECTDIR}/Sick.o.d 
+	@${RM} ${OBJECTDIR}/Sick.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  Sick.c  -o ${OBJECTDIR}/Sick.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/Sick.o.d"      -g -omf=elf -O0 -msmart-io=1 -Wall -msfr-warn=off
+	@${FIXDEPS} "${OBJECTDIR}/Sick.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
 endif
 

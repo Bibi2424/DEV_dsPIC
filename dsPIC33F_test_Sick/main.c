@@ -29,18 +29,13 @@ _FOSC(POSCMD_NONE & OSCIOFNC_ON & IOL1WAY_OFF & FCKSM_CSDCMD);
 // Watchdog Timer.
 _FWDT(FWDTEN_OFF);
 // Select debug channel.
-_FICD(ICS_PGD3 & JTAGEN_OFF);
+_FICD(ICS_PGD1 & JTAGEN_OFF);
 
 /******************************************************************************/
 /* Global Variable Declaration                                                */
 /******************************************************************************/
 
 /* i.e. uint16_t <variable_name>; */
-volatile uint16_t channel = 0;
-volatile uint16_t Dist;
-volatile uint16_t Sector[3] = {0,0,0};
-volatile uint16_t Old_Sector[3] = {0,0,0};
-volatile uint16_t Stick[2];
 
 /******************************************************************************/
 /* Main Program                                                               */

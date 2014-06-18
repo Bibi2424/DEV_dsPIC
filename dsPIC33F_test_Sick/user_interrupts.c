@@ -23,13 +23,6 @@
 /* Global Variable Declaration                                                */
 /******************************************************************************/
 
-extern volatile uint16_t channel;
-extern volatile uint16_t Dist;
-extern volatile uint16_t Sector[3];
-extern volatile uint16_t Old_Sector[3];
-extern volatile uint16_t Stick[2];
-
-
 uint16_t time = 0;
 
 /******************************************************************************/
@@ -62,54 +55,6 @@ void InitApp(void)
 
 }
 
-void InitADC()
-{
-   //Configuration du convertisseur Analog to Digital (ADC) du dspic33f
-   //Cf page 286 dspic33f Data Sheet
-
-   //AD1CON1 Confugration
-   AD1CON1bits.ADON = 0;    //Eteindre A/D converter pour la configuration
-   AD1CON1bits.FORM = 0;    //Configure le format de la sortie de l'ADC ( 3=signed float, 2=unsigned float, 1=signed integer, 0=unsigned integer
-   AD1CON1bits.SSRC = 4;    //Config de l'échantillonnage : Timer5
-   AD1CON1bits.SIMSAM = 0;  //Simultaneously Sample CH0
-   AD1CON1bits.ASAM = 1;    //Début d'échantillonnage (1=tout de suite  0=dès que AD1CON1bits.SAMP est activé)
-   AD1CON1bits.AD12B = 0;   //Choix du type de converter (10 ou 12 bits) 0 = 10 bits , 1 = 12bits
-
-   //AD1CON2 Configuration
-   AD1CON2bits.ALTS = 0;     //Always sampling on channel A
-   AD1CON2bits.CHPS = 0;    //Select CH0
-
-   //AD1CON3 Configuration
-   AD1CON3bits.ADRC = 1;        //Choix du type de clock interne (=1) ou externe (=0)
-
-   //Choix des références de tensions
-   AD1CHS0bits.CH0SA = 4;	// Choix du (+) de la mesure pour le channel CH0 (0 = AN0) par défault
-   AD1CHS0bits.CH0NA = 0;	// Choix du (-) de la mesure pour le channel CH0 (0 = Masse interne pic)
-
-   //Configuration des pins analogiques
-   AD1PCFGL = 0xFFFF;   //Met tous les ports AN en Digital Input
-   //AD1PCFGLbits.PCFG0 = 0;
-   AD1PCFGLbits.PCFG1 = 0;
-   AD1PCFGLbits.PCFG2 = 0;
-   AD1PCFGLbits.PCFG3 = 0;
-   AD1PCFGLbits.PCFG4 = 0;
-   AD1PCFGLbits.PCFG5 = 0;
-   /* COM A ENLEVER SUR DSPIC AVEC 8 PINS ANALOGIQUES
-   AD1PCFGLbits.PCFG6 = 0;
-   AD1PCFGLbits.PCFG7 = 0;
-    */
-
-   //Configuration du Timer 5, pour l'ADC
-    OpenTimer5(T5_ON & T5_GATE_OFF & T5_PS_1_256 & T5_SOURCE_INT, 15625);
-
-   //Configuration des interuption
-   IFS0bits.AD1IF = 0;      //Mise à 0 du flag d'interrupt de ADC1
-   IEC0bits.AD1IE = 1;      //Enable les interruptions d'ADC1
-   IPC3bits.AD1IP = 2;      //Et les prioritées (ici prio = 2)
-   AD1CON1bits.SAMP = 0;
-   AD1CON1bits.ADON = 1;    // Turn on the A/D converter
-}
-
 /******************************************************************************/
 /*                                                                            */
 /*                      Interrupt Routines                                    */
@@ -118,71 +63,11 @@ void InitADC()
 
 void __attribute__((interrupt,auto_psv)) _T2Interrupt(void)
 {
-    led = led^1;            // On bascule l'état de la LED
+    //led = led^1;            // On bascule l'état de la LED
 
     _T2IF = 0;              // On baisse le FLAG
 }
 
-//Distance en TOR
-void __attribute__ ((interrupt, auto_psv)) _ADC1Interrupt(void)
- {
-    StartDebugTimer();
-
-    switch(channel)
-    {
-        case 0:
-            Sector[0] = ADC1BUF0;
-            if(Sector[0] > SEUIL_HAUT && Old_Sector[0] == 0)
-            {
-                Old_Sector[0] = 1;
-                led2 = 1;
-                printf("Capteur 1, Détection : OUI\n");
-            }
-            else if(Sector[0] < SEUIL_BAS && Old_Sector[0] == 1)
-            {
-                Old_Sector[0] = 0;
-                led2 = 0;
-                printf("Capteur 1, Détection : NON\n");
-            }
-            _CH0SA = Dist_2;
-        break;
-        case 1:
-            Sector[1] = ADC1BUF0;
-            if(Sector[1] > SEUIL_HAUT && Old_Sector[1] == 0)
-            {
-                Old_Sector[1] = 1;
-                printf("Capteur 2, Détection : OUI\n");
-            }
-            else if(Sector[1] < SEUIL_BAS && Old_Sector[1] == 1)
-            {
-                Old_Sector[1] = 0;
-                printf("Capteur 2, Détection : NON\n");
-            }
-            _CH0SA = Dist_3;
-        break;
-        case 2:
-            Sector[2] = ADC1BUF0;
-            if(Sector[2] > SEUIL_HAUT && Old_Sector[2] == 0)
-            {
-                Old_Sector[2] = 1;
-                printf("Capteur 3, Détection : OUI\n");
-            }
-            else if(Sector[2] < SEUIL_BAS && Old_Sector[2] == 1)
-            {
-                Old_Sector[2] = 0;
-                printf("Capteur 3, Détection : NON\n");
-            }
-            _CH0SA = Dist_1;
-        break;
-    }
-    channel = (channel+1)%3;
-
-    time = ReadStopDebugTimer();
-    if(channel  == 0)
-    {led = led^1;}
-
-    _AD1IF = 0;        //Clear the interrupt flag
- }
 
 /******************************************************************************/
 /* Interrupt Vector Options                                                   */

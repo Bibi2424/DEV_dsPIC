@@ -33,7 +33,7 @@
 void InitDebug(int U1TX, int U1RX)
 {
     //Timer0 pour les temps
-    OpenTimer1(T2_OFF & T2_GATE_OFF & T2_PS_1_256 & T2_SOURCE_INT, 65535);
+    OpenTimer1(T1_OFF & T1_GATE_OFF & T1_PS_1_256 & T1_SOURCE_INT, 65535);
 
     //UART Module
     OpenUART1(UART_EN & UART_IDLE_CON & UART_IrDA_DISABLE & UART_MODE_FLOW

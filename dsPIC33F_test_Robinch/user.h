@@ -18,22 +18,31 @@
 /******************************************************************************/
 /* Files to Include                                                           */
 /******************************************************************************/
-#include <p33Fxxxx.h>      /* Includes device header file                     */
-#include <stdint.h>        /* Includes uint16_t definition                    */
-#include <stdbool.h>       /* Includes true/false definition                  */
-#include <stdio.h>         /* Include printf                                  */
-#include <libpic30.h>
-#include "debug.h"
-#include "timer.h"
-#include "outcompare.h"
-
-/******************************************************************************/
-/* System Level #define Macros                                                */
-/******************************************************************************/
+#if defined(__XC16__)
+    #include <xc.h>
+#elif defined(__C30__)
+    #if defined(__dsPIC33E__)
+    	#include <p33Exxxx.h>
+    #elif defined(__dsPIC33F__)
+    	#include <p33Fxxxx.h>
+    #endif
+#endif
 
 /* Microcontroller MIPs (FCY) */
 #define SYS_FREQ        80000000 //7370000L
 #define FCY             SYS_FREQ/2
+
+#include <stdint.h>        /* Includes uint16_t definition                    */
+#include <stdbool.h>       /* Includes true/false definition                  */
+#include <stdio.h>         /* Include printf                                  */
+#include "debug.h"
+#include "timer.h"
+#include "outcompare.h"
+#include <libpic30.h>
+
+/******************************************************************************/
+/* System Level #define Macros                                                */
+/******************************************************************************/
 
 #define UNLOCK_RP        __builtin_write_OSCCONL(OSCCON & 0xBF)
 #define LOCK_RP          __builtin_write_OSCCONL(OSCCON | 0x40)
