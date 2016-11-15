@@ -22,7 +22,7 @@
 #include <stdint.h>        /* Includes uint16_t definition                    */
 #include <stdbool.h>       /* Includes true/false definition                  */
 #include <stdio.h>         /* Include printf                                  */
-#include <libpic30.h>
+#include <xc.h>
 #include "debug.h"
 #include "timer.h"
 #include "outcompare.h"

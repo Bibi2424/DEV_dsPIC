@@ -1,8 +1,0 @@
-delete(instrfind)
-
-s=serial('COM6')
-
-try 
-    fopen(s)
-catch
-    

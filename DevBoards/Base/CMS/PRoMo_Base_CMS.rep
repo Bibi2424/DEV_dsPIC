@@ -1,0 +1,102 @@
+Data Expoted from: C:/Users/Bibi2424/Documents/GitHub/PRoMo/Electronics/Base/PRoMo_Base_CMS.sch
+with: C:/Program Files (x86)/EAGLE-6.4.0/ulp/statistic-sch.ulp
+at: 02/10/2013 10:31:30
+EAGLE Version 6.4.0 Copyright (c) 1988-2013 CadSoft
+
+used layers 5
+
+91 Nets
+93 Pins
+94 Symbols
+95 Names
+96 Values
+_________________________
+
+
+
+
+============================
+
+----------------------------
+LAYER
+Nb.	Name	Used
+ 91	Nets	1
+ 92	Busses	0
+ 93	Pins	1
+ 94	Symbols	1
+ 95	Names	1
+ 96	Values	1
+ 97	Info	0
+ 98	Guide	0
+100	Muster	0
+101	Bemassung	0
+200	200bmp	0
+250	Descript	0
+251	SMDround	0
+254	cooling	0
+
+----------------------------
+CLASS
+# - Name	min. Width	Clearance	min. Drill	Used
+0 - default	0.0000 	0.0000 	0.0000 	57  
+
+
+----------------------------
+LIBRARY	Quant.
+supply1	40  
+switch-omron	2   
+rcl	3   
+resistor	15  
+diode	1   
+microchip-dspic33fjxxmc	1   
+lm1117	1   
+ftdichip-3	1   
+con-jack	1   
+jumper	3   
+pinhead	3   
+led	6   
+Perso	2   
+con-berg	1   
+
+PACKAGE	Quant.
+B3F-10XX	2   
+E2-5	3   
+C1206	6   
+SMB	1   
+TQFP44	1   
+SOT223	1   
+SSOP28DB	1   
+SPC4078	1   
+JP2	1   
+1X06/90	1   
+JP1	2   
+1X20	2   
+CHIPLED_1206	6   
+BORNIER_COUDEE_3.5	1   
+M1206	9   
+TRHOUGH_HOLE_(EUS)	1   
+PN61729-S	1   
+
+DEVICE	Quant.
+10-XX	2   
+CPOL-EUE2-5	3   
+C-EUC1206	6   
+DIODE-SMB	1   
+DSPIC33FJ128MC804-PT	1   
+LM1117IMPX-3.3	1   
+FT232RL	1   
+JACK-PLUG1	1   
+JP2E	1   
+PINHD-1X6/90	1   
+JP1E	2   
+PINHD-1X20	2   
+LEDCHIPLED_1206	6   
+BORNIER_3.5MM	1   
+R-EU_M1206	9   
+PTH08000W(EUS)	1   
+PN61729-S	1   
+
+
+----------------------------
+
+End report
